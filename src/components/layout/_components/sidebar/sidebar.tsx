@@ -1,13 +1,10 @@
 "use client";
 
 import {
-  DollarIcon,
-  GroupIcon,
-  MailIcon,
+
   PowerIcon,
   SettingIcon,
   TanglIcon,
-  WindowsIcon,
 } from "@/assets/svg";
 import { Button } from "@mui/material";
 import clsx from "clsx";

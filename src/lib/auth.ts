@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt, { compare, hash } from "bcryptjs";
+import bcrypt, { compare } from "bcryptjs";
 
 // Hardcoded admin credentials (or store in DB)
 const ADMIN_CREDENTIALS = {

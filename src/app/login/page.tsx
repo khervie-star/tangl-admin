@@ -2,7 +2,7 @@
 
 import { DeleteIcon, NavTwoLogo } from "@/assets/svg";
 import { AppButton } from "@/components";
-import { TextField, InputAdornment, IconButton, FormControlLabel, Checkbox, Button } from "@mui/material";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { Formik } from 'formik';
@@ -24,7 +24,7 @@ interface ILoginRequest {
 }
 
 
-const LoginPage = ({ children }: { children: React.ReactNode }) => {
+const LoginPage = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const errorParam = searchParams.get("error");

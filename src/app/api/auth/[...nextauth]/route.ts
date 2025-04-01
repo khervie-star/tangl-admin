@@ -1,7 +1,8 @@
-// app/api/auth/[...nextauth]/route.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt, { compare } from "bcryptjs";
+import { compare } from "bcryptjs";
 
 const ADMIN_PASSWORD_HASH =
   "$2b$12$sF7pGkczgCBt7cNa7EZ1YudbDh4Y99zZxt8xXuEFAvRSPwTTmBfwS";

@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 const WaitlistPage = () => {
     const [users, setUsers] = useState<IWaitlistUser[]>([])
     const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+    const [,setError] = useState<string | null>(null)
 
     const fetchUsers = async () => {
         try {
@@ -44,9 +44,9 @@ const WaitlistPage = () => {
     }, [])
 
     // Handle manual refresh
-    const handleRefresh = () => {
-        fetchUsers()
-    }
+    // const handleRefresh = () => {
+    //     fetchUsers()
+    // }
 
     // Handle export
     const handleExport = () => {

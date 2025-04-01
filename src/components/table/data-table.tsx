@@ -41,10 +41,9 @@ import {
 } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
-import { CheckCircle, XCircle } from "lucide-react"
 
 // Import your types
-import { IWaitlistUser, TUserType, TVerificationStatus } from "@/types"
+import { IWaitlistUser, TUserType } from "@/types"
 import { Button } from "../ui/button"
 import React from "react"
 

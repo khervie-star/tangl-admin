@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Avatar, IconButton, Paper, InputBase } from "@mui/material";
 import { NavTwoLogo, SearchIcon } from "@/assets/svg";
-import { IoNotifications } from "react-icons/io5";
 import { MobileSidebar, TopBarMenu } from "./menu";
 import { CgMenu } from "react-icons/cg";
 import { useRouter } from "next/navigation";

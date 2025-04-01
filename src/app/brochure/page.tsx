@@ -38,15 +38,17 @@ const BrochurePage = () => {
         }
     }
 
+    console.log(error);
+
     // Load data on initial mount
     useEffect(() => {
         fetchUsers()
     }, [])
 
     // Handle manual refresh
-    const handleRefresh = () => {
-        fetchUsers()
-    }
+    // const handleRefresh = () => {
+    //     fetchUsers()
+    // }
 
     // Handle export
     const handleExport = () => {
