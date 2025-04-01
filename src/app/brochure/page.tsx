@@ -1,6 +1,6 @@
 "use client"
 
-import { IBrochureDownload, IWaitlistUser } from '@/types';
+import { IBrochureDownload } from '@/types';
 import React, { useEffect, useState } from 'react'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
