@@ -1,13 +1,11 @@
 "use client";
 
 import {
-  DollarIcon,
-  GroupIcon,
-  MailIcon,
+
   PowerIcon,
   SettingIcon,
   TanglIcon,
-  WindowsIcon,
+
 } from "@/assets/svg";
 import { Button, IconButton } from "@mui/material";
 import clsx from "clsx";
@@ -16,6 +14,7 @@ import { useState } from "react";
 import { AppDialog } from "@/components";
 import { AppButton } from "@/components";
 import { FaXmark } from "react-icons/fa6";
+import { LayoutDashboard, Users, FileText, ClipboardList } from "lucide-react";
 
 export const MobileSidebar = ({
   open,
@@ -81,23 +80,23 @@ export const MobileSidebar = ({
           {[
             {
               href: "/",
-              icon: <WindowsIcon />,
+              icon: <LayoutDashboard />,
               label: "Dashboard",
             },
             {
-              href: "#",
-              icon: <DollarIcon />,
-              label: "Assets",
+              href: "/waitlist",
+              icon: <Users />,
+              label: "Waitlist",
+            },
+            {
+              href: "/brochure",
+              icon: <FileText />,
+              label: "Brochure",
             },
             {
               href: "#",
-              icon: <MailIcon />,
-              label: "Invites",
-            },
-            {
-              href: "#",
-              icon: <GroupIcon />,
-              label: "Investors",
+              icon: <ClipboardList />,
+              label: "Investments",
             },
           ].map((link) => (
             <Button
