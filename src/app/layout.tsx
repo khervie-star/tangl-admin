@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { outfit } from "@/fonts";
 import GlobalProvider from "@/provider/global-provider";
-import { DashboardLaoyout } from "@/components";
 
 
 export const metadata: Metadata = {
