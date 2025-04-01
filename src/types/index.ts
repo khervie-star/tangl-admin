@@ -5,6 +5,7 @@ export type TUserType = "INVESTMENT_COMPANY" | "INVESTOR";
 export type TVerificationStatus = "UNVERIFIED" | "VERIFIED";
 
 export interface IBrochureDownload{
+  id: string;
   name: string;
   email: string;
   phoneNumber: string;

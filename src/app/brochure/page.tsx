@@ -1,16 +1,16 @@
 "use client"
 
-import { IWaitlistUser } from '@/types';
+import { IBrochureDownload, IWaitlistUser } from '@/types';
 import React, { useEffect, useState } from 'react'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Download, Upload } from "lucide-react"
-import { UsersDataTable } from '@/components';
 import { toast } from 'sonner';
+import { BrochureTable } from '@/components';
 
 const BrochurePage = () => {
-    const [users, setUsers] = useState<IWaitlistUser[]>([])
+    const [data, setData] = useState<IBrochureDownload[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -26,7 +26,7 @@ const BrochurePage = () => {
             }
 
             const data = await response.json()
-            setUsers(data)
+            setData(data)
 
         } catch (err) {
             console.error('Error fetching data:', err)
@@ -52,7 +52,7 @@ const BrochurePage = () => {
 
     // Handle export
     const handleExport = () => {
-        if (users.length === 0) {
+        if (data.length === 0) {
             toast.error("There are no users to export.")
             return
         }
@@ -90,7 +90,7 @@ const BrochurePage = () => {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <UsersDataTable data={users} isLoading={isLoading} />
+                    <BrochureTable data={data} isLoading={isLoading} />
                 </CardContent>
             </Card>
 

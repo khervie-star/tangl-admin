@@ -1,18 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import NextAuth from "next-auth";
+// lib/auth.ts
+import { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt, { compare } from "bcryptjs";
+import { compare } from "bcryptjs";
 
-// Hardcoded admin credentials (or store in DB)
-const ADMIN_CREDENTIALS = {
-  username: process.env.ADMIN_USERNAME || "admin",
-  password:
-    process.env.ADMIN_PASSWORD_HASH ||
-    "$2b$12$3t9gYqHB9baxjN.lz9jPtOrVlz/8S0JgZmMd6aAcYdP9EkmQYNuMy",
-};
+const ADMIN_PASSWORD_HASH =
+  "$2b$12$sF7pGkczgCBt7cNa7EZ1YudbDh4Y99zZxt8xXuEFAvRSPwTTmBfwS";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -21,14 +15,22 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (
-          credentials?.username === ADMIN_CREDENTIALS.username &&
-          (await compare(
-            await bcrypt.hash(credentials.password, 12),
-            ADMIN_CREDENTIALS.password
-          ))
-        ) {
-          return { id: "1", name: "Admin" };
+        if (!credentials?.username || !credentials?.password) {
+          return null;
+        }
+        // Check if username matches the admin username
+        if (credentials.username === process.env.ADMIN_USERNAME) {
+          const isValidPassword = await compare(
+            credentials.password,
+            ADMIN_PASSWORD_HASH
+          );
+          if (isValidPassword) {
+            return {
+              id: "1",
+              name: "Admin",
+              email: "info@tangl.com",
+            };
+          }
         }
         return null;
       },
@@ -36,19 +38,24 @@ export const authOptions = {
   ],
   pages: {
     signIn: "/login",
-    error: "/login?error=true",
   },
-  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }: { token: any; user?: any }) {
-      if (user) token.role = "admin";
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = "admin";
+      }
       return token;
     },
-    async session({ session, token }: { session: any; token: any }) {
-      session.user.role = token.role;
+    async session({ session, token }) {
+      // Fix: Add token parameter to session callback
+      if (session.user && token.role) {
+        session.user.role = token.role as string;
+      }
       return session;
     },
   },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
-
-export default NextAuth(authOptions);
