@@ -62,9 +62,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${outfit.variable} ${outfit.className} antialiased`}>
         <GlobalProvider>
-          <DashboardLaoyout>
-            {children}
-          </DashboardLaoyout>
+          {children}
         </GlobalProvider>
       </body>
     </html>
