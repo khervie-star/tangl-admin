@@ -12,7 +12,13 @@ import { Toaster } from 'sonner'
 import { SessionProvider } from "next-auth/react";
 
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+    refetchOnMount: false
+  }
+  }
+});
 
 const GlobalProvider = ({
   children,
