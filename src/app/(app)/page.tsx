@@ -41,11 +41,11 @@ async function fetchBrochureDownloads() {
   return res.json();
 }
 
-async function fetchInvestments() {
-  const res = await fetch('/api/investments');
-  if (!res.ok) throw new Error('Failed to fetch investments');
-  return res.json();
-}
+// async function fetchInvestments() {
+//   const res = await fetch('/api/investments');
+//   if (!res.ok) throw new Error('Failed to fetch investments');
+//   return res.json();
+// }
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -86,6 +86,8 @@ export default function Dashboard() {
     router.push('/login');
     return null;
   }
+
+  console.log(session);
 
   // Loading state
   const isLoading = status === 'loading' || isLoadingWaitlist || isLoadingBrochure; // || isLoadingInvestments;
@@ -218,7 +220,7 @@ export default function Dashboard() {
                 <FileText className="h-10 w-10 text-muted-foreground" />
                 <p className="text-lg font-medium text-muted-foreground">No recent activity</p>
                 <p className="text-sm text-muted-foreground text-center">
-                  When new activities occur, they'll appear here
+                  When new activities occur, they&apos;ll appear here
                 </p>
               </div>
             )}
