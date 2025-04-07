@@ -1,5 +1,7 @@
 "use client"
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { useState } from "react"
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
 import {
@@ -46,8 +48,10 @@ import { Button } from "../ui/button"
 import React from "react"
 
 // Define the status options
-const statusOptions = ["PENDING", "APPROVED", "REJECTED"] as const
-type TStatus = typeof statusOptions[number]
+// const statusOptions = ["PENDING", "APPROVED", "REJECTED"] as const
+// type TStatus = typeof statusOptions[number]
+type TStatus = "PENDING" | "APPROVED" | "REJECTED";
+
 
 // Column definitions
 export const investmentColumns: ColumnDef<IInvestmentRequest>[] = [

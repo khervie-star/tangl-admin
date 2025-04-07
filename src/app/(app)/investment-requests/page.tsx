@@ -5,10 +5,9 @@ import React, { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {  Download, Upload } from "lucide-react"
-import { UsersDataTable } from '@/components';
 import { toast } from 'sonner';
 import { IInvestmentRequest } from '../../../types'
-import { InvestmentsDataTable } from '@/components/table/investments-table'
+import { InvestmentsDataTable } from '@/components'
 
 const InvestmentRequestsPage = () => {
     const [requests, setRequests] = useState<IInvestmentRequest[]>([])
