@@ -80,7 +80,7 @@ export const SideBar = () => {
               label: "Brochure",
             },
             {
-              href: "#",
+              href: "/investment-requests",
               icon: <ClipboardList />,
               label: "Investments",
             },

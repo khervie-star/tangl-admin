@@ -22,3 +22,48 @@ export interface IWaitlistUser {
   country: string;
   communicationsOptIn: boolean;
 }
+
+
+export interface IInvestmentRequest {
+  _id?: string;
+  id?: string;
+  createdAt?: string;
+  title?: string;
+  nationalInsuranceNumber?: string;
+  firstName?: string;
+  lastName?: string;
+  middleName?: string;
+  maritalStatus?: string;
+  dateOfBirth?: string;
+  nationality?: string;
+  emailAddress?: string;
+  telephoneNumber?: string;
+  mobileNumber?: string;
+  otherPhoneNumber?: string;
+  address?: string;
+  investmentSize?: string;
+  investmentAmount?: number;
+  investmentCurrency?: string;
+  sourceOfFunds?: string;
+  accountName?: string;
+  bankName?: string;
+  accountNumber?: string;
+  sortCode?: string;
+  iban?: string;
+  swift?: string;
+  bankAddress?: string;
+  signature?: string;
+  companyName?: string;
+  contactName?: string;
+  dateOfIncorporation?: string;
+  companyNumber?: string;
+  fullName?: string;
+  dateOfApplication?: string;
+  investmentType?: TInvestorTypes | null;
+}
+
+export type TInvestorTypes =
+  | "INDIVIDUAL"
+  | "COMPANY"
+  | "HIGHNETWORTHINDIVIDUAL"
+  | "SOPHISTICATEDINDIVIDUAL";

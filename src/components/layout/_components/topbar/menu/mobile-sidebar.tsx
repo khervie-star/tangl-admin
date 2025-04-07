@@ -94,7 +94,7 @@ export const MobileSidebar = ({
               label: "Brochure",
             },
             {
-              href: "#",
+              href: "/investmentrequests",
               icon: <ClipboardList />,
               label: "Investments",
             },
