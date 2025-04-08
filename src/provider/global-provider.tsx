@@ -8,20 +8,19 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React from "react";
-import { Toaster } from 'sonner'
+import { Toaster } from "sonner";
 import { SessionProvider } from "next-auth/react";
-
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-    refetchOnMount: false
-  }
+      refetchOnMount: false
+    }
   }
 });
 
 const GlobalProvider = ({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
@@ -38,7 +37,6 @@ const GlobalProvider = ({
         </LocalizationProvider>
       </QueryClientProvider>
     </SessionProvider>
-
   );
 };
 
