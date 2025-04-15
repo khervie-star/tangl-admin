@@ -53,7 +53,6 @@ const InvestmentRequestsPage = () => {
   // Load data on initial mount
   useEffect(() => {
     fetchInvestmentRequests();
-    toast.info("Preparing CSV export of investors");
   }, []);
 
   // Handle export
