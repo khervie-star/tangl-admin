@@ -113,7 +113,7 @@ export default function Dashboard() {
       title: "Investment Forms",
       value: '0',
       icon: <FileSpreadsheet className="h-6 w-6 text-muted-foreground" />,
-      link: "/investments"
+      link: "/investment-requests"
     }
   ];
 
