@@ -136,10 +136,6 @@ const InvestmentRequestsPage = () => {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="flex items-center gap-1">
-            <Upload className="h-4 w-4" />
-            Import
-          </Button>
           <Button
             variant="outline"
             className="flex items-center gap-1"

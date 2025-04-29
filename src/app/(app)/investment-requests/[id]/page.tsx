@@ -426,18 +426,26 @@ const InvestmentDetailPage = () => {
               <div className="flex flex-col md:flex-row items-center gap-4">
                 <AppButton
                   isDisabled={mutation.isPending}
-                  loading={mutation.isPending}
+                  loading={
+                    mutation.isPending && mutation.variables === "APPROVED"
+                  }
                   onClick={() => mutation.mutate("APPROVED")}
                   extraClass="!normal-case !py-3 !bg-green-600 !text-white !border-none !w-full lg:!w-1/2">
-                  Approve Application
+                  {mutation.isPending && mutation.variables === "APPROVED"
+                    ? "Approving"
+                    : "Approve Application"}
                 </AppButton>
 
                 <AppButton
                   isDisabled={mutation.isPending}
-                  loading={mutation.isPending}
+                  loading={
+                    mutation.isPending && mutation.variables === "REJECTED"
+                  }
                   onClick={() => mutation.mutate("REJECTED")}
                   extraClass="!normal-case !py-3 !bg-red-600 !text-white !border-none !w-full lg:!w-1/2">
-                  Reject Application
+                  {mutation.isPending && mutation.variables === "REJECTED"
+                    ? "Rejecting"
+                    : "Reject Application"}
                 </AppButton>
               </div>
             </div>
