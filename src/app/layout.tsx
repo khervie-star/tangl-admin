@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Tangl Capital Partners",
     description: "", url: "https://nextjs.org",
-    siteName: "Next.js",
+    siteName: "Tangl Capital Partners",
     images: [
       {
         url: "https://i.ibb.co/D12gDtR/og.png",

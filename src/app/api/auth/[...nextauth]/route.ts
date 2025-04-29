@@ -1,8 +1,5 @@
 import NextAuth from "next-auth";
 
-// const ADMIN_PASSWORD_HASH =
-//   "$2b$12$sF7pGkczgCBt7cNa7EZ1YudbDh4Y99zZxt8xXuEFAvRSPwTTmBfwS";
-
 // Define proper session user type
 declare module "next-auth" {
   interface User {

@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
 
 const ADMIN_PASSWORD_HASH =
-  "$2b$12$sF7pGkczgCBt7cNa7EZ1YudbDh4Y99zZxt8xXuEFAvRSPwTTmBfwS";
+  "$2a$12$nlwzF2HXCBVKZWzazZ8cQutL56S5x0JlMH68sa7jyoysi4PS0iigG";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -27,8 +27,8 @@ export const authOptions: NextAuthOptions = {
           if (isValidPassword) {
             return {
               id: "1",
-              name: "Admin",
-              email: "info@tangl.com",
+              name: "Tangl",
+              email: "info@tanglcapitalpartners.com",
             };
           }
         }
