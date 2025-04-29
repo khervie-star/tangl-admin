@@ -11,7 +11,7 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, Upload } from "lucide-react";
+import { Download } from "lucide-react";
 import { toast } from "sonner";
 import { IInvestmentRequest } from "../../../types";
 import { InvestmentsDataTable } from "@/components";
