@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -14,6 +13,63 @@ import { Download, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { IInvestmentRequest } from "../../../types";
 import { InvestmentsDataTable } from "@/components";
+import { parse } from "json2csv";
+
+
+const fields = [
+  "title",
+  "firstName",
+  "middleName",
+  "lastName",
+  "fullName",
+  "emailAddress",
+  "telephoneNumber",
+  "mobileNumber",
+  "otherPhoneNumber",
+  "address",
+  "dateOfBirth",
+  "maritalStatus",
+  "nationality",
+  "nationalInsuranceNumber",
+  "investmentType",
+  "investmentSize",
+  "investmentAmount",
+  "investmentCurrency",
+  "sourceOfFunds",
+  "accountName",
+  "bankName",
+  "accountNumber",
+  "sortCode",
+  "iban",
+  "swift",
+  "bankAddress",
+  "signature",
+  "status",
+  "dateOfApplication",
+];
+
+
+function downloadCSV(data: any[]) {
+  const cleanedData = data.map((entry) => {
+    const cleaned: Record<string, any> = {};
+    for (const field of fields) {
+      cleaned[field] = entry[field] ?? "";
+    }
+    return cleaned;
+  });
+
+  const csv = parse(cleanedData, { fields });
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "Investment-Request.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 
 const InvestmentRequestsPage = () => {
   const [requests, setRequests] = useState<IInvestmentRequest[]>([]);
@@ -56,12 +112,14 @@ const InvestmentRequestsPage = () => {
   }, []);
 
   // Handle export
-  const handleExport = () => {
+  const handleExport = async () => {
     if (requests.length === 0) {
       toast.error("There are no investors to export.");
       return;
     }
     toast.info("Preparing CSV export of investors");
+
+    downloadCSV(requests);
   };
 
   return (
@@ -90,7 +148,7 @@ const InvestmentRequestsPage = () => {
         </div>
       </div>
 
-      <Card>
+      <div className="border border-border p-4 rounded-lg">
         <CardHeader className="pb-2">
           <CardTitle>All Requests</CardTitle>
           <CardDescription></CardDescription>
@@ -98,7 +156,7 @@ const InvestmentRequestsPage = () => {
         <CardContent>
           <InvestmentsDataTable data={requests} isLoading={isLoading} />
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 };

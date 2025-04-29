@@ -14,7 +14,7 @@ import {
   getSortedRowModel,
   SortingState,
   useReactTable,
-  VisibilityState
+  VisibilityState,
 } from "@tanstack/react-table";
 
 import {
@@ -23,7 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,14 +32,14 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/components/ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -48,6 +48,7 @@ import { Button } from "../ui/button";
 import React from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Chip, Tooltip } from "@mui/material";
 
 // Define the status options
 // const statusOptions = ["PENDING", "APPROVED", "REJECTED"] as const
@@ -58,7 +59,7 @@ type TStatus = "PENDING" | "APPROVED" | "REJECTED";
 
 export function InvestmentsDataTable({
   data,
-  isLoading
+  isLoading,
 }: {
   data: IInvestmentRequest[];
   isLoading: boolean;
@@ -89,7 +90,7 @@ export function InvestmentsDataTable({
       },
       cell: ({ row }) => (
         <div className="font-medium">{row.getValue("firstName") || "-"}</div>
-      )
+      ),
     },
     {
       accessorKey: "lastName",
@@ -107,7 +108,7 @@ export function InvestmentsDataTable({
       },
       cell: ({ row }) => (
         <div className="font-medium">{row.getValue("lastName") || "-"}</div>
-      )
+      ),
     },
     {
       accessorKey: "emailAddress",
@@ -125,7 +126,7 @@ export function InvestmentsDataTable({
       },
       cell: ({ row }) => (
         <div className="lowercase">{row.getValue("emailAddress") || "-"}</div>
-      )
+      ),
     },
     {
       accessorKey: "investmentType",
@@ -137,28 +138,46 @@ export function InvestmentsDataTable({
           return <div className="text-muted-foreground">Not specified</div>;
 
         const typeMap = {
-          INDIVIDUAL: { label: "Individual", variant: "outline" },
-          COMPANY: { label: "Company", variant: "default" },
+          INDIVIDUAL: {
+            label: "Individual",
+            variant: "outline",
+            title: "Indivdual Investor",
+          },
+          COMPANY: {
+            label: "Company",
+            variant: "default",
+            title: "Company Investor",
+          },
           HIGHNETWORTHINDIVIDUAL: {
             label: "HNW Individual",
-            variant: "secondary"
+            variant: "secondary",
+            title: "High Net-worth Individual",
           },
           SOPHISTICATEDINDIVIDUAL: {
             label: "Sophisticated",
-            variant: "secondary"
-          }
+            variant: "secondary",
+            title: "Sophisticated Individual",
+          },
         };
 
-        const { label, variant } = typeMap[type] || {
+        const { label, variant, title } = typeMap[type] || {
           label: type,
-          variant: "outline"
+          variant: "outline",
         };
 
-        return <Badge variant={variant as any}>{label}</Badge>;
+        return (
+          <Tooltip title={title}>
+            <Chip
+              variant={variant as any}
+              className="!cursor-pointer"
+              label={label}
+            />
+          </Tooltip>
+        );
       },
       filterFn: (row, id, value) => {
         return value.includes(row.getValue(id) as string);
-      }
+      },
     },
     {
       accessorKey: "investmentAmount",
@@ -173,11 +192,11 @@ export function InvestmentsDataTable({
           <div className="font-medium">
             {new Intl.NumberFormat("en-GB", {
               style: "currency",
-              currency: currency
+              currency: currency,
             }).format(amount)}
           </div>
         );
-      }
+      },
     },
     {
       accessorKey: "createdAt",
@@ -204,12 +223,12 @@ export function InvestmentsDataTable({
               ? date.toLocaleDateString("en-GB", {
                   day: "2-digit",
                   month: "short",
-                  year: "numeric"
+                  year: "numeric",
                 })
               : "-"}
           </div>
         );
-      }
+      },
     },
     {
       accessorKey: "status",
@@ -217,22 +236,22 @@ export function InvestmentsDataTable({
       cell: ({ row }) => {
         const status = (row.getValue("status") as TStatus) || "PENDING";
 
-        const statusMap = {
-          PENDING: { label: "Pending", variant: "outline" },
-          APPROVED: { label: "Approved", variant: "default" },
-          REJECTED: { label: "Rejected", variant: "destructive" }
-        };
-
-        const { label, variant } = statusMap[status] || {
-          label: status,
-          variant: "outline"
-        };
-
-        return <Badge variant={variant as any}>{label}</Badge>;
+        return (
+          <p
+            className={`w-fit font-semibold px-3 py-1 rounded-full capitalize ${
+              status?.toLocaleLowerCase() === "approved"
+                ? "bg-green-100 text-green-600"
+                : status?.toLocaleLowerCase() === "rejected"
+                ? "bg-red-100 text-red-600"
+                : "bg-yellow-100 text-yellow-600"
+            }`}>
+            {status || "PENDING"}
+          </p>
+        );
       },
       filterFn: (row, id, value) => {
         return value.includes(row.getValue(id) as string);
-      }
+      },
     },
     {
       id: "actions",
@@ -263,16 +282,16 @@ export function InvestmentsDataTable({
                 onClick={() => handleViewDetails(investment._id as string)}>
                 View details
               </DropdownMenuItem>
-              <DropdownMenuItem>Edit status</DropdownMenuItem>
-              <DropdownMenuSeparator />
+              {/* <DropdownMenuItem>Edit status</DropdownMenuItem> */}
+              {/* <DropdownMenuSeparator />
               <DropdownMenuItem className="text-red-600">
                 Delete
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         );
-      }
-    }
+      },
+    },
   ];
 
   const table = useReactTable({
@@ -288,8 +307,8 @@ export function InvestmentsDataTable({
     state: {
       sorting,
       columnFilters,
-      columnVisibility
-    }
+      columnVisibility,
+    },
   });
 
   // Apply multiple filters for investor type
@@ -404,10 +423,6 @@ export function InvestmentsDataTable({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-
-          <Button variant="default" className="text-white">
-            Export CSV
-          </Button>
         </div>
       </div>
 

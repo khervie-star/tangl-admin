@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "formik": "^2.4.6",
+    "json2csv": "^6.0.0-alpha.2",
     "lucide-react": "^0.486.0",
     "mongoose": "^8.13.1",
     "next": "15.2.4",

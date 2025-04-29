@@ -4,14 +4,13 @@ export type TUserType = "INVESTMENT_COMPANY" | "INVESTOR";
 
 export type TVerificationStatus = "UNVERIFIED" | "VERIFIED";
 
-export interface IBrochureDownload{
+export interface IBrochureDownload {
   id: string;
   name: string;
   email: string;
   phoneNumber: string;
   communicationsOptIn: boolean;
 }
-
 
 export interface IWaitlistUser {
   id: string;
@@ -22,7 +21,6 @@ export interface IWaitlistUser {
   country: string;
   communicationsOptIn: boolean;
 }
-
 
 export interface IInvestmentRequest {
   _id?: string;
@@ -60,6 +58,7 @@ export interface IInvestmentRequest {
   fullName?: string;
   dateOfApplication?: string;
   investmentType?: TInvestorTypes | null;
+  status?: TInvestmentApplicationStates;
 }
 
 export type TInvestorTypes =
@@ -67,3 +66,5 @@ export type TInvestorTypes =
   | "COMPANY"
   | "HIGHNETWORTHINDIVIDUAL"
   | "SOPHISTICATEDINDIVIDUAL";
+
+export type TInvestmentApplicationStates = "PENDING" | "APPROVED" | "REJECTED";

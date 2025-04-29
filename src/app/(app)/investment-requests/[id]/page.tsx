@@ -1,18 +1,20 @@
 "use client";
+import { AppButton } from "@/components";
 import { IInvestmentRequest } from "@/types";
 import { FormGroup, FormControlLabel, Checkbox, Button } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { toast } from "sonner";
 
 async function fetchSingleInvestmentDetail({ id }: { id: string }) {
   const res = await fetch(`/api/investments/single`, {
     method: "POST",
-    body: JSON.stringify({ id: id })
+    body: JSON.stringify({ id: id }),
   });
   if (!res.ok) throw new Error("Failed to fetch investment");
   return res.json();
@@ -21,6 +23,7 @@ async function fetchSingleInvestmentDetail({ id }: { id: string }) {
 const InvestmentDetailPage = () => {
   const params = useParams();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { status } = useSession();
   const { id } = params;
 
@@ -31,9 +34,36 @@ const InvestmentDetailPage = () => {
     queryKey: ["InvestmentDetail", id],
     queryFn: () =>
       fetchSingleInvestmentDetail({
-        id: id as string
+        id: id as string,
       }),
-    enabled: status === "authenticated" && !!id
+    enabled: status === "authenticated" && !!id,
+  });
+
+  const mutation = useMutation({
+    mutationFn: async (status: "APPROVED" | "REJECTED") => {
+      const res = await fetch("/api/investments/single", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id as string,
+          status: status,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to update status");
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success("Investment status updated successfully.");
+      queryClient.invalidateQueries({ queryKey: ["InvestmentDetail"] });
+    },
+    onError: (error) => {
+      console.error("Error updating status:", error);
+      toast.error(
+        "There was a problem updating the investment status. Please try again."
+      );
+    },
   });
 
   const formatDate = (dateString?: string) => {
@@ -42,7 +72,7 @@ const InvestmentDetailPage = () => {
     return date.toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "long",
-      year: "numeric"
+      year: "numeric",
     });
   };
 
@@ -51,7 +81,7 @@ const InvestmentDetailPage = () => {
     if (!amount) return "";
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
-      currency: currency || "GBP"
+      currency: currency || "GBP",
     }).format(amount);
   };
 
@@ -83,9 +113,26 @@ const InvestmentDetailPage = () => {
 
       <div className="flex flex-col lg:flex-row gap-10">
         <div className="w-full lg:w-[65%]">
-          <p className="font-medium text-body text-[20px] lg:text-[24px] mb-4">
+          {/* <p className="font-medium text-body text-[20px] lg:text-[24px] mb-4">
             Preview Application
-          </p>
+          </p> */}
+          <div className="flex items-center gap-5 mb-4">
+            <p className="font-medium text-body text-[20px] lg:text-[24px]">
+              Preview Application
+            </p>
+            <div>
+              <p
+                className={`font-semibold px-3 py-1 rounded-full capitalize ${
+                  data?.status?.toLocaleLowerCase() === "approved"
+                    ? "bg-green-100 text-green-600"
+                    : data?.status?.toLocaleLowerCase() === "rejected"
+                    ? "bg-red-100 text-red-600"
+                    : "bg-yellow-100 text-yellow-600"
+                }`}>
+                {data?.status || "PENDING"}
+              </p>
+            </div>
+          </div>
 
           <div className="border border-border rounded-lg p-5 lg:p-8 mb-10">
             {/* Applicant Information Section */}
@@ -366,6 +413,32 @@ const InvestmentDetailPage = () => {
                     }
                   />
                 </FormGroup>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10">
+            <p className="font-medium text-body text-[20px] lg:text-[24px] mb-4">
+              Actions
+            </p>
+
+            <div className="border border-border rounded-lg p-5 lg:p-8">
+              <div className="flex flex-col md:flex-row items-center gap-4">
+                <AppButton
+                  isDisabled={mutation.isPending}
+                  loading={mutation.isPending}
+                  onClick={() => mutation.mutate("APPROVED")}
+                  extraClass="!normal-case !py-3 !bg-green-600 !text-white !border-none !w-full lg:!w-1/2">
+                  Approve Application
+                </AppButton>
+
+                <AppButton
+                  isDisabled={mutation.isPending}
+                  loading={mutation.isPending}
+                  onClick={() => mutation.mutate("REJECTED")}
+                  extraClass="!normal-case !py-3 !bg-red-600 !text-white !border-none !w-full lg:!w-1/2">
+                  Reject Application
+                </AppButton>
               </div>
             </div>
           </div>
